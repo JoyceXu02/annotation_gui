@@ -42,8 +42,9 @@ if uploaded_file:
     if "annotations" not in st.session_state:
         st.session_state.annotations = {}
 
-    index = st.number_input("Example #", min_value=1, max_value=len(df), step=1)
-    row = df.iloc[index-1]
+    visible_index = st.number_input("Example #", min_value=1, max_value=len(df), step=1)
+    index = visible_index - 1  # Convert to zero-based index
+    row = df.iloc[index]
     st.subheader("📄 Summary")
     summary = clean_summary_text(row["ann_summary"])
     # Legend
