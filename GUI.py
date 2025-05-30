@@ -99,9 +99,11 @@ if uploaded_file:
         result = pd.DataFrame.from_dict(st.session_state.annotations, orient="index")
         result["index"] = result.index
         final = df.copy()
-        for col in result.columns:
-            if col != "index":
-                final.loc[result["index"], col] = result[col].values
+        for _, row in result.iterrows():
+            i = row["index"]  # This is the row number in df
+            for col in result.columns:
+                if col != "index":
+                    final.at[i, col] = row[col]
         output = BytesIO()
         final.to_excel(output, index=False, engine='openpyxl')
         st.download_button("Download Annotated Excel", output.getvalue(), file_name=filename)
