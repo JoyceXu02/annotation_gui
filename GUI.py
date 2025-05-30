@@ -43,7 +43,7 @@ if uploaded_file:
         st.session_state.annotations = {}
 
     index = st.number_input("Example #", min_value=1, max_value=len(df), step=1)
-    row = df.iloc[index]
+    row = df.iloc[index-1]
     st.subheader("📄 Summary")
     summary = clean_summary_text(row["ann_summary"])
     # Legend
