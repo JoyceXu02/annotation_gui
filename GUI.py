@@ -64,16 +64,31 @@ if uploaded_file:
     # st.write(row["reason"])
 
     with st.form("annotation_form"):
-        question_type = st.selectbox("Question Type", ["", "Issue", "Reason", "Conclusion", "Factual"])
-        question_type_reason = st.text_area("Reason for Question Type")
+        existing_annotation = st.session_state.annotations.get(index, {})
+        question_type = st.selectbox("Question Type", ["", "Issue", "Reason", "Conclusion", "Factual"], index=["", "Issue", "Reason", "Conclusion", "Factual"].index(existing_annotation.get("question_type", "")),)
+        question_type_reason = st.text_area("Reason for Question Type",
+            value=existing_annotation.get("question_type_reason", ""),
+        )   
 
-        persona = st.selectbox("Persona", ["", "Layperson", "Professional"])
-        persona_reason = st.text_area("Reason for Persona")
+        persona = st.selectbox("Persona", ["", "Layperson", "Professional"],
+        index=["", "Layperson", "Professional"].index(existing_annotation.get("persona", "")),
+)
+        persona_reason = st.text_area("Reason for Persona",
+            value=existing_annotation.get("persona_reason", ""),
+        )
 
-        factual = st.selectbox("Answer Factual Accuracy", ["", "Correct", "Incorrect", "Unclear"])
-        grounding = st.selectbox("Answer Grounding", ["", "Correct", "Incorrect", "Unclear"])
-        responsiveness = st.selectbox("Answer Responsiveness", ["", "Correct", "Incorrect", "Unclear"])
-        comment = st.text_area("Comments (Optional)")
+        factual = st.selectbox("Answer Factual Accuracy", ["", "Correct", "Incorrect", "Unclear"],
+        index=["", "Correct", "Incorrect", "Unclear"].index(existing_annotation.get("answer_factual_accuracy", "")),
+        )
+
+        grounding = st.selectbox("Answer Grounding", ["", "Correct", "Incorrect", "Unclear"],
+        index=["", "Correct", "Incorrect", "Unclear"].index(existing_annotation.get("answer_grounding", "")),
+        )
+        responsiveness = st.selectbox("Answer Responsiveness", ["", "Correct", "Incorrect", "Unclear"], index=["", "Correct", "Incorrect", "Unclear"].index(existing_annotation.get("answer_responsiveness", "")))
+
+        comment = st.text_area("Comments (Optional)",
+            value=existing_annotation.get("comment", ""),
+        )
 
         submitted = st.form_submit_button("✅ Save Annotation")
         st.caption("⚠️ Please click 'Save Annotation' after finishing each example!")
