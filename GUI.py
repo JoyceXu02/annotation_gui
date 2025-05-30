@@ -88,7 +88,7 @@ if uploaded_file:
                 "answer_responsiveness": responsiveness,
                 "comment": comment,
             }
-            st.success(f"Annotation for example #{index} saved.")
+            st.success(f"Annotation for example #{visible_index} saved.")
 
     original_filename = uploaded_file.name
     base_name = os.path.splitext(original_filename)[0]         # qa_pairs_1996canlii6900_A_TODO
