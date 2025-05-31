@@ -42,20 +42,24 @@ if uploaded_file:
     if "annotations" not in st.session_state:
         st.session_state.annotations = {}
 
-    visible_index = st.number_input("Example #", min_value=1, max_value=len(df), step=1)
-    index = visible_index - 1  # Convert to zero-based index
-    row = df.iloc[index]
+    summary = clean_summary_text(df.iloc[0]["ann_summary"])
+    
     st.subheader("📄 Summary")
-    summary = clean_summary_text(row["ann_summary"])
     # Legend
-    st.markdown("### 🟦 Annotation Legend")
+    st.markdown("🟦 Annotation Legend")
     st.markdown("""
     - <span style='background-color:#ffcccc; padding:2px 5px;'>Issue</span>: Key issue in the case  
     - <span style='background-color:#ccffcc; padding:2px 5px;'>Reason</span>: Supporting reasons or arguments  
     - <span style='background-color:#ccccff; padding:2px 5px;'>Conclusion</span>: Final decision or claim
     """, unsafe_allow_html=True)
 
+    
     st.markdown(f"**Summary:**<br>{highlight_tags(summary)}", unsafe_allow_html=True)
+
+    visible_index = st.number_input("Question #", min_value=1, max_value=len(df), step=1)
+    index = visible_index - 1  # Convert to zero-based index
+    row = df.iloc[index]
+
     st.subheader("🧠 Question")
     st.write(row["question"])
     st.subheader("🎯 Answer")
